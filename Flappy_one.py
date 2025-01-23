@@ -3,12 +3,7 @@ import os
 import math as m
 from pynput import keyboard
 
-
-
-
 pygame.init()
-
-
 
 WIDTH, HEIGHT = 1200,800
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -39,11 +34,8 @@ WHITE_WING = (255, 230, 200)
 
 #------------------------MOVES----------------------------------
 
-class move:
-    def __init__(self, x, y, )
-
-
-
+def on_press():
+    print("la touche espace a été appuyée")
 
 
 
@@ -52,7 +44,9 @@ def init():
     run = True
     clock = pygame.time.Clock()
     
-    
+
+
+
     
     while run:
         clock.tick(60)
@@ -62,6 +56,11 @@ def init():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    on_press()
+                
         pygame.display.update()
     pygame.quit()
 
