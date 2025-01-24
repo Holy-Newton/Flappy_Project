@@ -1,5 +1,4 @@
 import pygame
-import os
 import math as m
 from pynput import keyboard
 
@@ -8,7 +7,7 @@ pygame.init()
 WIDTH, HEIGHT = 1200,800
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 
-pygame.display.set_caption("------Flappy-Bird-------- by Holly_Newton")
+pygame.display.set_caption("HOLLY_HOLLY_HOLLY_HOLLY------ FLAPPY-BIRD by Holly-Newton -----HOLLY_HOLLY_HOLLY_HOLLY")
 
 #------------------------COLORS----------------------------------
 
@@ -35,10 +34,10 @@ WHITE_WING = (255, 230, 200)
 #----------------------PARAMETERS--------------------------------
 
 SPEED = 10
-GRAVITY = -10
-JUMP = 10
-
-
+GRAVITY = 8
+TIME_STEP = 1
+y = HEIGHT/2
+Vy = 0
 #-----------------------PICTURES---------------------------------
 
 bird_image = pygame.image.load('BIRD.png')
@@ -46,67 +45,46 @@ tube_image = pygame.image.load('TUBE.png')
 
 bird_image = pygame.transform.scale(bird_image, (90,90))
 tube_image_fliped = pygame.transform.flip(tube_image, False, True)
-#------------------------MOVES----------------------------------
 
-
-class move:
-    def __init__(self, x, y, Vx, Vy, Ay, image):
-        self.x = x
-        self.y = y
-        self.Vx = Vx
-        self.Vy = Vy
-        self.Ay = Ay
-        self.image = image
-    
-    def jump(self):
-            if self == bird:
-                self.Vy = JUMP
+#----------------------BIRD_MOVMEMENT----------------------------      
             
-    def position_update(self):
-        self.x += self.Vx
-        if self == bird:
-            self.y += self.Vy + GRAVITY/2
-        self.y += self.Vy
-        
-            
-    
 
+#-----------------------------------------------------------------
 def init():
+    global y
+    global Vy
     run = True
     clock = pygame.time.Clock()
+
     
+    JUMP = False
+
     while run:
         clock.tick(60)
         WIN.fill(BLUE_SKY)
+
+
         
-        #-----------------OBJECTS-------------------------
-        bird = move(WIDTH/2-200, HEIGHT/2 + 20, 0, 0 ,GRAVITY, bird_image)
-        tube_up = move(WIDTH-50, HEIGHT/2 + 20, SPEED, 0 ,0, tube_image)
-        tube_down = move(WIDTH-50, 0, SPEED, 0 ,0, tube_image_fliped)
-      
-        
-
-        Object = [bird, tube_up, tube_down]
-
-
-
         #------------------EVENTS-------------------------
         
-        for move in Object:
-                move.position_update()
+    
                 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    move.Jump(bird)
-            
+                    JUMP = True
 
-                
-        #WIN.blit(bird_image, ((WIDTH/2-200), HEIGHT/2))
-        #WIN.blit(Tube_image, ((WIDTH/2), HEIGHT/2))
-        #WIN.blit(Tube_image_fliped, ((WIDTH/2), 0))  
+        if JUMP:
+            Vy = -10
+        else:
+            Vy = Vy
+        JUMP = False
+        y = y + Vy + GRAVITY
+        WIN.blit(bird_image, ((WIDTH/2-200),y))
+        WIN.blit(tube_image, ((WIDTH/2), HEIGHT/2))
+        WIN.blit(tube_image_fliped, ((WIDTH/2), 0))  
         pygame.display.update()
     pygame.quit()
 
