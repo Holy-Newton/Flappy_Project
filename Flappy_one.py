@@ -83,7 +83,9 @@ def collide(a,b,c,d,e):
         return False
         print("pas de collision")
 
-#---------------------------------------   --------------------------
+
+
+#-------------------------INITIALISATION--------------------------
 def init():
     global y
     global Vy
@@ -106,10 +108,10 @@ def init():
         WIN.blit(cloud_image, (9,0))
         Intern_title=FONT_TITLE.render("FLAPPY BIRD by Holy_Newton", 1, YELLOW_BIRD)
         WIN.blit((Intern_title), (100,100)) 
-        ### COLLISION STUFF:
+        #---------COLLISION STUFF:--------------------------
 
-        rect_bird = bird_image.get_rect()
-        rect_tube = tube_image.get_rect()
+        rect_bird = bird_image.get_rect(topleft=(70,50))
+        rect_tube = tube_image.get_rect(topleft=(70,50))
         rect_tube2 = tube_image2.get_rect()
         rect_tube_fliped = tube_image_fliped.get_rect()
         rect_tube_fliped2 = tube_image_fliped2.get_rect()
@@ -132,7 +134,7 @@ def init():
                     JUMP = True
                    
 
-        ### BIRD MANIPULATION ###
+        ##BIRD MANIPULATION ###
         if JUMP:
             Vy = -FLY
         else:
