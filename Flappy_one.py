@@ -69,8 +69,21 @@ def Tube2_mv(Tx, H):
     WIN.blit(tube_image_fliped2, (Tx, 50-H*60))
     WIN.blit(tube_image2, (Tx, WIDTH/1.5-H*60))
 
+def collide(a,b,c,d,e):
+    if b.colliderect(a):
+        return True
+    if c.colliderect(a):
+        return True
+    if d.colliderect(a):
+        return True
+    if e.colliderect(a):
+        return True
+        print("collision")
+    else:
+        return False
+        print("pas de collision")
 
-#-----------------------------------------------------------------
+#---------------------------------------   --------------------------
 def init():
     global y
     global Vy
@@ -85,6 +98,7 @@ def init():
     
     
     JUMP = False
+    Collision = False
 
     while run:
         clock.tick(60)
@@ -92,7 +106,18 @@ def init():
         WIN.blit(cloud_image, (9,0))
         Intern_title=FONT_TITLE.render("FLAPPY BIRD by Holy_Newton", 1, YELLOW_BIRD)
         WIN.blit((Intern_title), (100,100)) 
+        ### COLLISION STUFF:
+
+        rect_bird = bird_image.get_rect()
+        rect_tube = tube_image.get_rect()
+        rect_tube2 = tube_image2.get_rect()
+        rect_tube_fliped = tube_image_fliped.get_rect()
+        rect_tube_fliped2 = tube_image_fliped2.get_rect()
         
+        Collision = collide(rect_bird ,rect_tube ,rect_tube2 ,rect_tube_fliped ,rect_tube_fliped2)
+        
+
+
         #------------------EVENTS-------------------------
         if Tx == WIDTH/2-200:
             point += 1
@@ -145,7 +170,19 @@ def init():
         WIN.blit((POINT), (WIDTH - 150,100))
 
         pygame.display.update()
-    pygame.quit() 
+
+    ### if GAME OVER OR QUIT:    
+    if run == False and Collision == False:
+        pygame.quit()
+    else:
+        Failed_title=FONT_TITLE.render("GAME OVER, press 'space bar' to start", 1, RED)
+        WIN.blit((Failed_title), (WIDTH/2,HEIGHT/2)) 
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    run= True
 
 
 init()
