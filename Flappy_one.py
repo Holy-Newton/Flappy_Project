@@ -52,7 +52,7 @@ bird_image = pygame.image.load('BIRD.png')
 tube_image = pygame.image.load('TUBE.png')
 
 bird_image = pygame.transform.scale(bird_image, (70,50))
-tube_image = pygame.transform.scale2x(tube_image)
+tube_image = pygame.transform.scale(tube_image, (120,600))
 tube_image_fliped = pygame.transform.flip(tube_image, False, True)
 tube_image2 = tube_image
 tube_image_fliped2 = tube_image_fliped
@@ -69,19 +69,18 @@ def Tube2_mv(Tx, H):
     WIN.blit(tube_image_fliped2, (Tx, 50-H*60))
     WIN.blit(tube_image2, (Tx, WIDTH/1.5-H*60))
 
-def collide(a,b,c,d,e):
+def collide(a,b,c):
     if b.colliderect(a):
         return True
     if c.colliderect(a):
         return True
-    if d.colliderect(a):
-        return True
-    if e.colliderect(a):
-        return True
-        print("collision")
     else:
         return False
-        print("pas de collision")
+
+
+
+
+
 
 
 
@@ -102,6 +101,10 @@ def init():
     JUMP = False
     Collision = False
 
+
+
+
+
     while run:
         clock.tick(60)
         WIN.fill(BLUE_SKY)
@@ -110,14 +113,25 @@ def init():
         WIN.blit((Intern_title), (100,100)) 
         #---------COLLISION STUFF:--------------------------
 
-        rect_bird = bird_image.get_rect(topleft=(70,50))
-        rect_tube = tube_image.get_rect(topleft=(70,50))
-        rect_tube2 = tube_image2.get_rect()
-        rect_tube_fliped = tube_image_fliped.get_rect()
-        rect_tube_fliped2 = tube_image_fliped2.get_rect()
+        rect_bird = bird_image.get_rect(topleft=(WIDTH/2-200,y))
         
-        Collision = collide(rect_bird ,rect_tube ,rect_tube2 ,rect_tube_fliped ,rect_tube_fliped2)
+        rect_tube = tube_image.get_rect(topleft=(Tx, WIDTH/1.5-alea*60))
+        rect_tube_fliped = tube_image_fliped.get_rect(topleft=(Tx, 50-alea*60))
+        Collision = collide(rect_bird ,rect_tube ,rect_tube_fliped)
+        if Collision:
+            run = False
+            print(f"{point} collision !!!")
+
+        if decount<0:
+            rect_tube2 = tube_image2.get_rect(topleft=(T2x, 50-alea2*60))
+            rect_tube_fliped2 = tube_image_fliped2.get_rect(topleft=(T2x, 50-alea2*60))
+            Collision = collide(rect_bird ,rect_tube2 ,rect_tube_fliped2)
+
         
+        
+        if Collision:
+            run = False
+            print(f"{point} collision !!!")
 
 
         #------------------EVENTS-------------------------
@@ -173,24 +187,11 @@ def init():
 
         pygame.display.update()
 
-    ### if GAME OVER OR QUIT:    
-    if run == False and Collision == False:
-        pygame.quit()
-    else:
-        Failed_title=FONT_TITLE.render("GAME OVER, press 'space bar' to start", 1, RED)
-        WIN.blit((Failed_title), (WIDTH/2,HEIGHT/2)) 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    run= True
+    pygame.quit()
 
-
+    
+    
 init()
-
-
-
 
 
 
